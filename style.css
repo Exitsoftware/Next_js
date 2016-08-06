@@ -1,0 +1,16 @@
+*{
+    margin: 0 auto;
+    font-family: Ubuntu;
+}
+body{
+    
+    font-weight: 300;
+    background: #f3f3f3;
+}
+#main_nav{
+    background-image: url(bg.jpg);
+    background-size: cover;
+    padding: 100px;
+    text-align: center;
+    color: white;
+}

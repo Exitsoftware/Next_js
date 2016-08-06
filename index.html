@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Hangul</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300' rel='stylesheet' type='text/css'>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="hangul.js"></script>
+    
+
+	<script>
+
+
+		function drawChart(list, title) {
+			// var data = google.visualization.arrayToDataTable([
+			// 	['Year', 'Sales', 'Expenses'],
+			// 	['2004',  1000,      400],
+			// 	['2005',  1170,      460],
+			// 	['2006',  660,       1120],
+			// 	['2007',  1030,      540]
+			// ]);
+
+			var data = google.visualization.arrayToDataTable(list);
+
+			var options = {
+				title: title +' 다음에 올 문자의 빈도 수',
+				curveType: 'function',
+				legend: { position: 'bottom' }
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+			chart.draw(data, options);
+		}
+
+
+		$(document).ready(function(){
+			var dic = {};
+			google.charts.load('current', {'packages':['corechart']});
+
+			$('#btn').click(function(){
+				var string = $('#in').val();
+				var hangul_split = Hangul.d(string, true);
+				
+				// for(var i = 0; i < hangul_split.length; i++){
+				// 	var cur = hangul_split[i];
+
+				// 	if(cur.length == 1){
+				// 		var key = cur[0] + ' ->  ';
+				// 		if(!(key in dic)){
+				// 			dic[key] = 1;
+				// 		}
+				// 		else{
+				// 			dic[key] += 1;
+				// 		}
+						
+				// 	}
+				// 	else{
+				// 		for(var j = 0; j < cur.length-1; j++){
+				// 			var key = cur[j] + ' -> ' + cur[j+1];
+				// 			if(!(key in dic)){
+				// 			dic[key] = 1;
+				// 			}
+				// 			else{
+				// 				dic[key] += 1;
+				// 			}
+				// 		}	
+				// 	}
+					
+				// }
+
+				// option2
+
+				// var hangul_split = Hangul.d(string);
+
+				// for(var i = 0; i < hangul_split.length-1; i++){
+					
+				// 	var key = hangul_split[i] + ' -> ' + hangul_split[i+1];
+				// 	if(!(key in dic)){
+				// 	dic[key] = 1;
+				// 	}
+				// 	else{
+				// 		dic[key] += 1;
+				// 	}
+
+				// }
+
+
+				// for(key in dic){
+				// 	var string = key + ' ' + dic[key];
+				// 	var element = $('</div>').text(string);
+				// 	$('#result').append('<div>'+string+'</div>');
+				// }
+
+
+
+				// option3
+
+				var hangul_split = Hangul.d(string);
+
+				for(var i = 0; i < hangul_split.length-1; i++){
+					
+
+					var head = hangul_split[i];
+					var tail = hangul_split[i+1];
+
+					if(!(head in dic)){
+						dic[head] = {};
+					}
+					else{
+						if(!(tail in dic[head])){
+							dic[head][tail] = 1;
+						}
+						else{
+							dic[head][tail] += 1;
+						}
+					}
+					
+				}
+
+
+				for(head in dic){
+					for(tail in dic[head]){
+						$('#result').append(head + ' -> ' + tail + ' ' + dic[head][tail] +'<br>');
+					}
+					$('#result').append('<br>');
+				}
+
+				var list = [['/', 'count']];
+				var key_list = Object.keys(dic);
+				var key_list2 = []
+				// alert(key_list);
+				// $('view_key').text(key_list);
+				$('#view_key').html('');
+				for(key in dic){
+					key_list2.push(key);
+					$('#view_key').append( $('<button/>').attr({class:'in_btn', id: key}).text(key) );		
+
+				}
+				// $('#view_key').text(key_list2);				
+				for(tail in dic['ㅋ']){
+					list.push([tail, dic['ㅋ'][tail]]);
+				}
+				
+				
+				google.charts.setOnLoadCallback(drawChart(list, 'ㅋ'));
+
+
+				
+			});
+
+			$(document).on('click', '.in_btn', function(e){
+				var key = e.target.id;
+				// alert($(e).text())
+				// alert($(target).text);
+				// alert(key);
+				var list = [['/', 'count']];
+
+				for(tail in dic[key]){
+					list.push([tail, dic[key][tail]]);
+				}
+
+				google.charts.setOnLoadCallback(drawChart(list, key));
+
+			});
+
+
+
+		});
+
+		
+	</script>
+
+	 <script type="text/javascript">
+      
+    </script>
+
+</head>
+<body>
+
+	<div id="main_nav">
+        <h1>Next.js</h1>
+    </div>
+	<input id="in" type="text"></input>
+	<button id="btn">check</button>
+	<br>
+	<div id="view_key"></div>
+	<div id="curve_chart" style="width: 100%; height: 500px"></div>
+	<div id="result"></div>
+</body>
+</html>
