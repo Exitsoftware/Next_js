@@ -43,57 +43,6 @@
 				var string = $('#in').val();
 				var hangul_split = Hangul.d(string, true);
 				
-				// for(var i = 0; i < hangul_split.length; i++){
-				// 	var cur = hangul_split[i];
-
-				// 	if(cur.length == 1){
-				// 		var key = cur[0] + ' ->  ';
-				// 		if(!(key in dic)){
-				// 			dic[key] = 1;
-				// 		}
-				// 		else{
-				// 			dic[key] += 1;
-				// 		}
-						
-				// 	}
-				// 	else{
-				// 		for(var j = 0; j < cur.length-1; j++){
-				// 			var key = cur[j] + ' -> ' + cur[j+1];
-				// 			if(!(key in dic)){
-				// 			dic[key] = 1;
-				// 			}
-				// 			else{
-				// 				dic[key] += 1;
-				// 			}
-				// 		}	
-				// 	}
-					
-				// }
-
-				// option2
-
-				// var hangul_split = Hangul.d(string);
-
-				// for(var i = 0; i < hangul_split.length-1; i++){
-					
-				// 	var key = hangul_split[i] + ' -> ' + hangul_split[i+1];
-				// 	if(!(key in dic)){
-				// 	dic[key] = 1;
-				// 	}
-				// 	else{
-				// 		dic[key] += 1;
-				// 	}
-
-				// }
-
-
-				// for(key in dic){
-				// 	var string = key + ' ' + dic[key];
-				// 	var element = $('</div>').text(string);
-				// 	$('#result').append('<div>'+string+'</div>');
-				// }
-
-
 
 				// option3
 
@@ -181,6 +130,10 @@
 
 	<div id="main_nav">
         <h1>Next.js</h1>
+    </div>
+    <div>
+        <img src="logo.png">
+        
     </div>
 	<input id="in" type="text"></input>
 	<button id="btn">check</button>
